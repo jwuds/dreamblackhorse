@@ -1,0 +1,16 @@
+{
+  "name": "Dream Black Horse",
+  "short_name": "DreamHorse",
+  "description": "Premium black horses, expert breeding, and reliable logistics services.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#d4af37",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
