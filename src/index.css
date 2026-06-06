@@ -1,0 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --horse-shadow-base: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --horse-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.25);
+  --horse-vignette: inset 0 0 20px rgba(0, 0, 0, 0.5);
+  --horse-bg-start: #1a1a1a;
+  --horse-bg-end: #2d2d2d;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  :root {
+    --background: 0 0% 6%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 43 74% 66%;
+    --primary-foreground: 0 0% 9%; 
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 43 74% 66%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 43 74% 66%;
+    --radius: 0.75rem;
+
+    --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    --card-hover-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8);
+    --card-border: 0 0% 15%;
+    --card-padding: 2rem;
+
+    /* Large Card Sizing Tokens */
+    --card-width-desktop: 480px;
+    --card-width-tablet: 380px;
+    --card-width-mobile: 100%;
+    --card-max-width: 520px;
+    
+    /* Enhanced Typography Scales */
+    --card-heading-size-lg: 36px;
+    --card-heading-size-md: 28px;
+    --card-heading-size-sm: 24px;
+    --card-detail-label-size: 14px;
+    --card-detail-value-size: 16px;
+    --card-body-size: 16px;
+    --card-body-line-height: 1.7;
+    
+    /* Professional Spacing */
+    --card-section-gap: 2rem;
+    --card-detail-gap: 1rem;
+    --card-inner-padding: 2rem;
+    --card-outer-margin: 1.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 6%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 43 74% 66%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 43 74% 66%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 43 74% 66%;
+
+    --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    --card-hover-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8);
+    --card-border: 0 0% 15%;
+    --card-padding: 2rem;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    background: hsl(var(--card) / 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  /* Large Horse Card Utilities */
+  .large-card {
+    padding: var(--card-inner-padding);
+    box-shadow: var(--card-shadow);
+    border: 1px solid hsl(var(--card-border));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .large-card:hover {
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-6px);
+    border-color: hsl(var(--primary) / 0.3);
+  }
+
+  /* Responsive Grid for Horse Cards */
+  .horse-grid-responsive {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: var(--card-outer-margin);
+  }
+
+  @media (min-width: 768px) {
+    .horse-grid-responsive {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .horse-grid-responsive {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+  }
+
+  /* Enhanced Card Section Spacing */
+  .card-section-gap {
+    margin-bottom: var(--card-section-gap);
+  }
+
+  .card-detail-gap {
+    margin-bottom: var(--card-detail-gap);
+  }
+
+  /* Professional Card Shadows */
+  .card-shadow-professional {
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.4),
+                0 2px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-shadow-professional-hover {
+    box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.6),
+                0 4px 12px -2px rgba(0, 0, 0, 0.3);
+  }
+
+  /* YouTube Video Embed Utilities */
+  .youtube-embed-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
+
+  .youtube-embed-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Video Card Hover Effects */
+  .video-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .video-card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8);
+  }
+}
+
+@layer components {
+  /* Dynamic Professional Blog Prose Styling */
+  .blog-prose {
+    @apply text-gray-300 font-sans text-lg leading-relaxed max-w-none break-words;
+  }
+  
+  .blog-prose h2 {
+    @apply font-['Playfair_Display'] text-3xl md:text-4xl font-bold text-white mt-14 mb-6 tracking-tight;
+  }
+  
+  .blog-prose h3 {
+    @apply font-['Playfair_Display'] text-2xl md:text-3xl font-semibold text-gray-100 mt-10 mb-4;
+  }
+  
+  .blog-prose p {
+    @apply mb-6;
+  }
+  
+  .blog-prose ul {
+    @apply list-disc pl-6 mb-8 space-y-3 text-gray-300 marker:text-[#d4af37];
+  }
+  
+  .blog-prose ol {
+    @apply list-decimal pl-6 mb-8 space-y-3 text-gray-300 marker:text-[#d4af37] font-semibold;
+  }
+  
+  .blog-prose blockquote {
+    @apply border-l-4 border-[#d4af37] pl-6 py-4 my-8 text-xl italic font-['Playfair_Display'] text-gray-200 bg-white/5 rounded-r-xl;
+  }
+  
+  .blog-prose a {
+    @apply text-[#d4af37] hover:text-[#b5952f] transition-colors underline decoration-[#d4af37]/30 hover:decoration-[#d4af37];
+  }
+
+  .blog-prose strong {
+    @apply text-white font-semibold;
+  }
+  
+  .blog-prose img {
+    @apply rounded-xl border border-white/10 my-8 shadow-xl;
+  }
+
+  .blog-prose pre {
+    @apply bg-[#0a0a0a] p-4 rounded-xl border border-white/10 overflow-x-auto my-6 text-sm text-gray-300;
+  }
+
+  .blog-prose code {
+    @apply bg-white/10 px-1.5 py-0.5 rounded text-[#d4af37] text-sm;
+  }
+
+  /* YouTube Video Loading Skeleton */
+  .youtube-skeleton {
+    @apply bg-gradient-to-r from-[#1a1a1a] via-[#222] to-[#1a1a1a] animate-pulse;
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* YouTube Video Error State */
+  .youtube-error-state {
+    @apply flex flex-col items-center justify-center p-8 bg-[#1a1a1a] rounded-xl border border-red-500/20;
+  }
+
+  /* Responsive Video Aspect Ratios */
+  .aspect-video-responsive {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: auto;
+  }
+
+  @supports not (aspect-ratio: 16 / 9) {
+    .aspect-video-responsive {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+
+    .aspect-video-responsive > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
