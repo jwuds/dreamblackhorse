@@ -42,9 +42,10 @@ const BlogPostContent = () => {
         setError("An error occurred while loading the article. Please try again later.");
       } finally {
         setLoading(false);
+        document.dispatchEvent(new Event('prerender-ready'));
       }
     };
-    
+
     loadData();
   }, [slug, fetchPostBySlug, incrementViewCount]);
 

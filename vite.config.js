@@ -27,11 +27,14 @@ export default defineConfig(async ({ command, mode }) => {
         routes,
         renderer: '@prerenderer/renderer-puppeteer',
         rendererOptions: {
-          maxConcurrentRoutes: 3,
-          // Give Supabase / Ecommerce fetches + react-helmet time to populate
-          // the DOM before snapshotting (avoids capturing loading spinners).
-          renderAfterTime: 5000,
-          timeout: 60000,
+          maxConcurrentRoutes: 2,
+          // Dynamic pages dispatch 'prerender-ready' when their data is loaded.
+          // Static pages fall back to the time-based trigger at 10s.
+          // Using both: Puppeteer resolves on whichever fires first — for static
+          // pages that's the timeout, for dynamic pages it's the event (faster).
+          renderAfterDocumentEvent: 'prerender-ready',
+          renderAfterTime: 10000,
+          timeout: 90000,
           args: ['--no-sandbox', '--disable-setuid-sandbox'],
         },
         // Guarantee exactly one correct canonical + og:url per page. Without

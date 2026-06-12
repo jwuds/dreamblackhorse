@@ -60,6 +60,7 @@ function ProductDetailPage({ setIsCartOpen }) {
         setError(err.message || 'Failed to fetch details');
       } finally {
         setLoading(false);
+        document.dispatchEvent(new Event('prerender-ready'));
       }
     };
 
