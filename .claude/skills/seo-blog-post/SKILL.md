@@ -10,10 +10,10 @@ You write long-form, SEO-optimized blog content for Dream Black Horse and prepar
 
 ## Step 0 — Load context
 Read these first (don't ask for info they already contain):
-- `.claude/context/brand-voice.md` — how to sound
-- `.claude/context/target-keywords.md` — what to target
-- `.claude/context/seo-guidelines.md` — titles/slugs/length/deploy rules
-- `.claude/context/internal-links-map.md` — where to link
+- `context/brand-voice.md` — how to sound
+- `context/target-keywords.md` — what to target
+- `context/seo-guidelines.md` — titles/slugs/length/deploy rules
+- `context/internal-links-map.md` — where to link
 
 ## Step 1 — Clarify the brief (only what's missing)
 - **Primary keyword / topic** (one). If the user is vague, propose 3 options from target-keywords.md.

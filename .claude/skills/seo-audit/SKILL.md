@@ -9,7 +9,7 @@ description: Audit the Dream Black Horse site (or a specific page/route) for SEO
 You audit this specific site and return concrete, file-level fixes. This is a prerendered SPA: static routes + every horse + every blog post are snapshotted to HTML at build time by `vite.config.js`, then served from the committed `dist/` on Vercel.
 
 ## Step 0 — Load context
-Read `.claude/context/seo-guidelines.md` and `.claude/context/internal-links-map.md` so recommendations match house rules.
+Read `context/seo-guidelines.md` and `context/internal-links-map.md` so recommendations match house rules.
 
 ## Step 1 — Pick scope
 - **Whole site** (default), or a **single route** (e.g. `/blog/{slug}`, `/horses`), or a **single concern** (canonicals, sitemap, schema, titles).
