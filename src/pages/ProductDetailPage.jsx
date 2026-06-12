@@ -143,21 +143,53 @@ function ProductDetailPage({ setIsCartOpen }) {
   const seoTitle = `${horseName} - ${horseBreed} Horse for Sale | Dream Black Horse`;
   const seoH1 = `${horseName} - ${horseBreed} Horse for Sale`;
   const ageDisplay = formatHorseAge(fields.age);
-  const seoDescription = `${horseName} - ${ageDisplay} year old ${horseBreed} horse for sale. ${fields.temperament || 'Great temperament'}, ${fields.training_level || 'Well trained'}. Learn more about this premium horse.`;
+  const seoDescription = `${horseName} - ${ageDisplay} old ${horseBreed} horse for sale in Mt Dora, Florida. ${fields.temperament ? `${fields.temperament} temperament.` : ''} ${fields.training_level ? `${fields.training_level} training.` : ''} KFPS-registered, vet-checked, worldwide delivery available.`.trim();
+
+  // Product JSON-LD schema
+  const priceRaw = selectedVariant?.sale_price_in_cents || selectedVariant?.price_in_cents;
+  const priceValue = priceRaw ? (priceRaw / 100).toFixed(2) : undefined;
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.title,
+    "description": product.description?.replace(/<[^>]*>?/gm, '').trim() || seoDescription,
+    "image": (product.images?.map(img => img.url).filter(Boolean).length
+      ? product.images.map(img => img.url).filter(Boolean)
+      : product.image ? [product.image] : []),
+    "brand": { "@type": "Brand", "name": "Dream Black Horse" },
+    "category": fields.breed ? `${fields.breed} Horse` : "Horse",
+    ...(fields.color && { "color": fields.color }),
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "USD",
+      ...(priceValue && { "price": priceValue }),
+      "availability": isInStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/SoldOut",
+      "url": `https://dreamblackhorse.com/product/${id}`,
+      "seller": {
+        "@type": "Organization",
+        "name": "Dream Black Horse",
+        "url": "https://dreamblackhorse.com"
+      }
+    }
+  };
 
   return (
     <>
-      <SEOHead 
+      <SEOHead
         title={seoTitle}
         description={seoDescription}
-        image={product.image}
         canonical={`/product/${id}`}
         ogData={{
           title: seoTitle,
           description: seoDescription,
           image: product.image,
-          url: `https://dreamblackhorse.com/product/${id}`
+          url: `https://dreamblackhorse.com/product/${id}`,
+          type: 'product',
         }}
+        keywords={`${horseName}, ${horseBreed} horse for sale, KFPS friesian, buy friesian horse, horse for sale Florida, Dream Black Horse`}
+        schema={productSchema}
       />
       <div className="bg-[#0f0f0f] min-h-screen pb-24">
         {/* Navigation Bar */}
@@ -334,6 +366,25 @@ function ProductDetailPage({ setIsCartOpen }) {
               <div className="prose prose-invert prose-lg max-w-none text-gray-300 leading-relaxed bg-[#111] p-8 md:p-12 rounded-3xl border border-white/10 shadow-xl" dangerouslySetInnerHTML={{ __html: product.description || 'No description provided.' }} />
             </div>
           </motion.div>
+
+          {/* Crawler-readable spec block — sr-only, not visible to visitors */}
+          <dl className="sr-only">
+            <dt>Horse name</dt><dd>{product.title}</dd>
+            {fields.breed && <><dt>Breed</dt><dd>{fields.breed}</dd></>}
+            {fields.gender && <><dt>Gender</dt><dd>{fields.gender}</dd></>}
+            {fields.age && <><dt>Age</dt><dd>{formatHorseAge(fields.age)}</dd></>}
+            {fields.height && <><dt>Height</dt><dd>{formatHorseHeight(fields.height)}</dd></>}
+            {fields.color && <><dt>Color</dt><dd>{fields.color}</dd></>}
+            {fields.temperament && <><dt>Temperament</dt><dd>{fields.temperament}</dd></>}
+            {fields.training_level && <><dt>Training level</dt><dd>{fields.training_level}</dd></>}
+            {fields.registry && <><dt>Registry</dt><dd>{fields.registry}</dd></>}
+            {fields.sire && <><dt>Sire</dt><dd>{fields.sire}</dd></>}
+            {fields.dam && <><dt>Dam</dt><dd>{fields.dam}</dd></>}
+            <dt>Availability</dt><dd>{fields.availability}</dd>
+            <dt>Price</dt><dd>{price || 'Contact for price'}</dd>
+            <dt>Location</dt><dd>Mt Dora, Florida, United States</dd>
+            <dt>Seller</dt><dd>Dream Black Horse</dd>
+          </dl>
 
           {/* Similar Horses */}
           <div className="mt-24 pt-16 border-t border-white/10">

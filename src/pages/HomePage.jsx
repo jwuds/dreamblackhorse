@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import SEOHead from '@/components/SEOHead';
 import { motion } from 'framer-motion';
 import { ArrowRight, Loader2, Search, MessageSquare, Stethoscope, FileText, Truck, Home, AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -88,12 +88,43 @@ const HomePage = () => {
     description: 'Arrival of your new partner and start of your journey together.'
   }];
 
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": ["LocalBusiness", "AnimalShelter"],
+    "name": "Dream Black Horse",
+    "description": "Premium KFPS-registered Friesian horse sales in Mt Dora, Florida. Expert guidance, vet-checked horses, and worldwide transport.",
+    "url": "https://dreamblackhorse.com",
+    "email": "contact@dreamblackhorse.com",
+    "priceRange": "$$$",
+    "image": "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "21210 Horse Ranch Rd",
+      "addressLocality": "Mt Dora",
+      "addressRegion": "FL",
+      "postalCode": "32757",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "28.8029",
+      "longitude": "-81.6437"
+    },
+    "areaServed": {
+      "@type": "Country",
+      "name": "United States"
+    }
+  };
+
   return (
     <>
-      <Helmet>
-        <title>Dream Horse Classified - Premium Horse Breeding & Sales</title>
-        <meta name="description" content="Discover exceptional horses from champion bloodlines. Premium breeding, expert care, and lifetime support for discerning equestrian enthusiasts." />
-      </Helmet>
+      <SEOHead
+        title="Dream Black Horse — Premium Friesian Horses for Sale in Florida"
+        description="KFPS-registered Friesian horses for sale in Mt Dora, FL. Vet-checked, fully documented, worldwide delivery. Browse our current availability."
+        canonical="/"
+        keywords="friesian horses for sale, KFPS friesian horse, buy friesian horse USA, black horses for sale Florida, Mt Dora horse farm, dream black horse"
+        schema={localBusinessSchema}
+      />
 
       <div className="bg-[#1a1a1a] min-h-screen">
         {/* Hero Section */}

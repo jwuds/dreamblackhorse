@@ -122,18 +122,50 @@ const BlogPostContent = () => {
     }))
   } : null;
 
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.meta_description || post.introduction || '',
+    "author": {
+      "@type": "Person",
+      "name": post.author || "Dream Black Horse"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Dream Black Horse",
+      "url": "https://dreamblackhorse.com"
+    },
+    "datePublished": post.published_at || post.created_at || '',
+    "dateModified": post.updated_at || post.published_at || post.created_at || '',
+    "url": `https://dreamblackhorse.com/blog/${post.slug}`,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://dreamblackhorse.com/blog/${post.slug}`
+    },
+    ...(post.featured_image && { "image": post.featured_image }),
+    ...(Array.isArray(post.keywords) && post.keywords.length > 0 && {
+      "keywords": post.keywords.join(', ')
+    }),
+  };
+
+  const combinedSchema = faqSchema
+    ? { "@context": "https://schema.org", "@graph": [blogPostingSchema, { ...faqSchema, "@context": undefined }] }
+    : blogPostingSchema;
+
   return (
     <>
-      <SEOHead 
-        title={post.seo_title || `${post.title} - Dream Black Horse Blog`}
+      <SEOHead
+        title={post.seo_title || `${post.title} | Dream Black Horse Blog`}
         description={post.meta_description || post.introduction || post.title}
         canonical={`/blog/${post.slug}`}
+        keywords={Array.isArray(post.keywords) ? post.keywords.join(', ') : ''}
+        ogData={{
+          type: 'article',
+          ...(post.featured_image && { image: post.featured_image }),
+        }}
+        schema={combinedSchema}
       />
-      {faqSchema && (
-        <script type="application/ld+json">
-          {JSON.stringify(faqSchema)}
-        </script>
-      )}
 
       <div className="bg-[#1a1a1a] min-h-screen pb-20">
         <section className="relative pt-32 pb-20 overflow-hidden border-b border-white/5">
