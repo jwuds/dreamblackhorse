@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Instagram, Facebook, Twitter, Mail, MapPin, Building2 } from 'lucide-react';
+import { Mail, MapPin, Building2 } from 'lucide-react';
 
 const LOGO_URL = "https://horizons-cdn.hostinger.com/1ee4ac76-1453-4dcc-a280-1aeb1d67f81b/9a6ccfbea5cec07ff7085d5e702c493d.jpg";
 
@@ -98,16 +98,9 @@ const Footer = () => {
               Connect
             </span>
             <div className="mt-6 flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
-                <Instagram className="w-6 h-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
-                <Facebook className="w-6 h-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300">
-                <Twitter className="w-6 h-6" />
-              </a>
-              <a href="mailto:contact@dreamblackhorse.com" className="text-gray-400 hover:text-white transition-colors duration-300">
+              {/* Social profiles intentionally omitted until real URLs are provided.
+                  Add <a href="https://instagram.com/..."> etc. when ready. */}
+              <a href="mailto:contact@dreamblackhorse.com" aria-label="Email Dream Black Horse" className="text-gray-400 hover:text-white transition-colors duration-300">
                 <Mail className="w-6 h-6" />
               </a>
             </div>

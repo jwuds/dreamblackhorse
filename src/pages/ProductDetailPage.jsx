@@ -128,7 +128,7 @@ function ProductDetailPage({ setIsCartOpen }) {
   }
 
   const fields = parseHorseFields(product);
-  const price = selectedVariant?.sale_price_formatted ?? selectedVariant?.price_formatted;
+  const price = selectedVariant?.sale_price_formatted || selectedVariant?.price_formatted;
   const availableStock = selectedVariant ? selectedVariant.inventory_quantity : 0;
   const isStockManaged = selectedVariant?.manage_inventory ?? false;
   const isInStock = !isStockManaged || availableStock > 0;
@@ -244,10 +244,7 @@ function ProductDetailPage({ setIsCartOpen }) {
               
               <div className="bg-[#111] border border-white/10 p-6 rounded-2xl mb-8 shadow-sm">
                 <div className="flex items-end gap-4 mb-2">
-                  <span className="text-[40px] font-bold text-[#d4af37] leading-none">{price}</span>
-                  {selectedVariant?.sale_price_in_cents && (
-                    <span className="text-xl text-gray-500 line-through mb-1">{selectedVariant.price_formatted}</span>
-                  )}
+                  <span className="text-[40px] font-bold text-[#d4af37] leading-none">{price || 'Contact for price'}</span>
                 </div>
                 <p className="text-sm text-gray-400">Prices include standard health documentation and ownership transfer.</p>
               </div>

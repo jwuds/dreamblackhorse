@@ -8,7 +8,11 @@ export const formatCurrency = (priceInCents, currencyInfo) => {
 
   const { code, symbol, template } = currencyInfo;
   const currencyDisplay = symbol || code || "€";
-  const amount = (priceInCents / 100).toFixed(2);
+  const value = priceInCents / 100;
+  // Clean figure: thousands separators, and drop the ".00" on whole amounts.
+  const amount = Number.isInteger(value)
+    ? value.toLocaleString("en-US")
+    : value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   if (template) {
     return template.replace("$1", amount);

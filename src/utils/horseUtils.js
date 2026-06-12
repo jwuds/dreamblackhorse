@@ -6,11 +6,17 @@ export const parseHorseFields = (product) => {
     height: '',
     temperament: '',
     trainingLevel: '',
+    training_level: '',
     discipline: '',
     availability: 'Available',
     sire: '',
     dam: '',
-    category: 'Other'
+    category: 'Other',
+    gender: '',
+    breed: '',
+    color: '',
+    registry: '',
+    health_status: ''
   };
 
   // Parse from additional_info provided by Online Store API
@@ -18,14 +24,19 @@ export const parseHorseFields = (product) => {
     product.additional_info.forEach(info => {
       const title = (info.title || '').toLowerCase();
       const desc = (info.description || '').replace(/<[^>]*>?/gm, '').trim();
-      
+
       if (title.includes('age')) fields.age = desc;
       else if (title.includes('height')) fields.height = desc;
       else if (title.includes('temperament')) fields.temperament = desc;
-      else if (title.includes('training')) fields.trainingLevel = desc;
+      else if (title.includes('training')) { fields.trainingLevel = desc; fields.training_level = desc; }
       else if (title.includes('discipline')) fields.discipline = desc;
       else if (title.includes('sire')) fields.sire = desc;
       else if (title.includes('dam')) fields.dam = desc;
+      else if (title.includes('gender') || title.includes('sex')) fields.gender = desc;
+      else if (title.includes('breed')) fields.breed = desc;
+      else if (title.includes('colour') || title.includes('color')) fields.color = desc;
+      else if (title.includes('registr') || title.includes('papers')) fields.registry = desc;
+      else if (title.includes('health')) fields.health_status = desc;
       else if (title.includes('category')) fields.category = desc;
     });
   }
@@ -51,12 +62,33 @@ export const parseHorseFields = (product) => {
   }
 
   // Determine Category if not explicitly set
+  const titleLower = (product.title || '').toLowerCase();
+  const descLower = (product.description || '').toLowerCase();
   if (!fields.category || fields.category === 'Other') {
-    const titleLower = (product.title || '').toLowerCase();
     if (titleLower.includes('stallion')) fields.category = 'Stallion';
     else if (titleLower.includes('mare')) fields.category = 'Mare';
     else if (titleLower.includes('gelding')) fields.category = 'Gelding';
     else if (titleLower.includes('foal') || titleLower.includes('colt') || titleLower.includes('filly')) fields.category = 'Foal';
+  }
+
+  // Derive gender if not explicitly provided. For horses, the category
+  // (Stallion/Mare/Gelding) is the gender; fall back to scanning title/description.
+  if (!fields.gender) {
+    if (['Stallion', 'Mare', 'Gelding'].includes(fields.category)) {
+      fields.gender = fields.category;
+    } else {
+      const hay = `${titleLower} ${descLower}`;
+      if (hay.includes('stallion')) fields.gender = 'Stallion';
+      else if (hay.includes('gelding')) fields.gender = 'Gelding';
+      else if (hay.includes('mare')) fields.gender = 'Mare';
+      else if (hay.includes('filly')) fields.gender = 'Filly';
+      else if (hay.includes('colt')) fields.gender = 'Colt';
+    }
+  }
+
+  // Default breed for this Friesian-focused farm when the listing says so.
+  if (!fields.breed && (titleLower.includes('friesian') || descLower.includes('friesian'))) {
+    fields.breed = 'Friesian';
   }
 
   return fields;
